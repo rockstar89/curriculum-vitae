@@ -13,8 +13,8 @@
       "sr": "Београд, Србија"
     },
     "description": {
-      "en": "Responsible for direct communication with clients, working as part of a distributed team. Participated in the implementation of microservice architecture on Azure, following best practices for scalable and maintainable development. Utilized modern technologies such as .NET 7, Angular, and micro frontends.",
-      "sr": "Одговоран за директну комуникацију са клијентима, радећи као део дистрибуираног тима. Учествовао у имплементацији микросервисне архитектуре на Azure-у, пратећи најбоље праксе за скалабилан и одржив развој. Користио модерне технологије као што су .NET 7, Angular и micro frontends."
+      "en": "Lead Frontend Developer on a large-scale asset management platform migration, transitioning from a legacy system to a modern Angular-based application with enhanced functionality. Key contributor in a distributed, cross-functional team, driving feature development, UI/UX improvements, and integration with a microservice architecture on Azure. Applied best practices for scalability, maintainability, and performance, leveraging technologies including Angular, .NET 7, and micro frontends. Maintained direct communication with clients to align deliverables with business objectives and ensure seamless adoption of new features.",
+      "sr": "Главни фронтенд програмер на пројекту велике миграције платформе за управљање имовином, прелазак са застарелог система на модерну апликацију засновану на Angular-у са проширеном функционалношћу. Кључни члан дистрибуираног, мултидисциплинарног тима, задужен за развој нових функционалности, унапређење UI/UX-а и интеграцију са микро-сервис архитектуром на Azure-у. Примењивао најбоље праксе за скалабилност, одрживост и перформансе, користећи технологије као што су Angular, .NET 7 и микро-фронтенди. Остваривао директну комуникацију са клијентима ради усклађивања испорука са пословним циљевима и обезбеђивања несметаног усвајања нових функционалности."
     },
     "technologies": [".NET 7", "Angular", "Azure", "Micro Frontends", "MS SQL", "RabbitMQ"]
   },
@@ -24,16 +24,16 @@
     "company": "Rokolabs",
     "industry": "Software Development",
     "period": {
-      "en": "2022 - 2024",
-      "sr": "2022 - 2024"
+      "en": "2022 - 2023",
+      "sr": "2022 - 2023"
     },
     "location": {
       "en": "Belgrade, Serbia",
       "sr": "Београд, Србија"
     },
     "description": {
-      "en": "Contributed to the implementation of microservice architecture using Docker and AWS, following best practices for modern microservice development. Collaborated with a distributed team, responsible for direct communication with clients and worked extensively with .NET 6 and .NET 7.",
-      "sr": "Допринео имплементацији микросервисне архитектуре користећи Docker и AWS, пратећи најбоље праксе за модеран развој микросервиса. Сарађивао са дистрибуираним тимом, одговоран за директну комуникацију са клијентима и интензивно радио са .NET 6 и .NET 7."
+      "en": "Software Developer on a real estate asset management platform, enabling clients to manage properties, track building components such as floors and sensors, and monitor maintenance needs in real time. Contributed to the design and implementation of a microservice architecture using Docker and AWS, following modern best practices for scalability and reliability. Worked extensively with .NET 6 and .NET 7 to build high-performance backend services. Collaborated closely with a distributed, cross-functional team and maintained direct client communication to ensure alignment between technical deliverables and operational requirements.",
+      "sr": "Софтверски програмер на платформи за управљање непокретностима, омогућавајући клијентима да управљају објектима, прате компоненте зграда као што су спратови и сензори, као и да у реалном времену прате потребе за одржавањем. Доприносио дизајну и имплементацији микро-сервис архитектуре користећи Docker и AWS, пратећи савремене најбоље праксе за скалабилност и поузданост. Интензивно радио са .NET 6 и .NET 7 на развоју високо-перформантних бекенд сервиса. Сарађивао блиско са дистрибуираним, мултидисциплинарним тимом и одржавао директну комуникацију са клијентима како би се осигурало усклађивање техничких испорука са оперативним захтевима."
     },
     "technologies": [".NET 6", ".NET 7", "Docker", "AWS", "RabbitMQ", "gRPC", "Redis", "PostgreSQL", "Elasticsearch", "GraphQL"]
   },
@@ -43,8 +43,8 @@
     "company": "Interventure",
     "industry": "Healthcare Technology",
     "period": {
-      "en": "2022 - 2023",
-      "sr": "2022 - 2023"
+      "en": "2022 - 2022",
+      "sr": "2022 - 2022"
     },
     "location": {
       "en": "Belgrade, Serbia",
