@@ -20,14 +20,14 @@ type User struct {
 // CVFile represents a CV file stored in the database
 type CVFile struct {
 	ID           uint      `gorm:"primarykey" json:"id"`
-	FileName     string    `gorm:"not null" json:"fileName"`
-	OriginalName string    `gorm:"not null" json:"originalName"`
-	ContentType  string    `gorm:"not null;default:'application/pdf'" json:"contentType"`
-	FileSize     int64     `gorm:"not null" json:"fileSize"`
-	FileData     []byte    `gorm:"not null" json:"-"` // Don't include in JSON
-	IsCurrent    bool      `gorm:"default:true;index" json:"isCurrent"`
-	CreatedAt    time.Time `gorm:"autoCreateTime;index" json:"createdAt"`
-	UpdatedAt    time.Time `gorm:"autoUpdateTime" json:"updatedAt"`
+	FileName     string    `gorm:"column:filename;not null" json:"fileName"`
+	OriginalName string    `gorm:"column:original_name;not null" json:"originalName"`
+	ContentType  string    `gorm:"column:content_type;not null;default:'application/pdf'" json:"contentType"`
+	FileSize     int64     `gorm:"column:file_size;not null" json:"fileSize"`
+	FileData     []byte    `gorm:"column:file_data;not null" json:"-"` // Don't include in JSON
+	IsCurrent    bool      `gorm:"column:is_current;default:true;index" json:"isCurrent"`
+	CreatedAt    time.Time `gorm:"column:created_at;autoCreateTime;index" json:"createdAt"`
+	UpdatedAt    time.Time `gorm:"column:updated_at;autoUpdateTime" json:"updatedAt"`
 }
 
 // TableName sets the table name for CVFile
