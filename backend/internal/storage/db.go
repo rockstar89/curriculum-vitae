@@ -17,20 +17,39 @@ func InitDB() error {
 	dbURL := os.Getenv("DATABASE_URL")
 	if dbURL == "" {
 		// Check if we're in development mode
-		if os.Getenv("GIN_MODE") != "release" {
+		// Check if individual database components are provided
+		host := os.Getenv("DB_HOST")
+		port := os.Getenv("DB_PORT")
+		user := os.Getenv("DB_USER")
+		password := os.Getenv("DB_PASSWORD")
+		dbname := os.Getenv("DB_NAME")
+		sslmode := os.Getenv("DB_SSLMODE")
+		
+		if host != "" && user != "" && password != "" && dbname != "" {
+			// Use individual database components
+			if port == "" {
+				port = "5432"
+			}
+			if sslmode == "" {
+				sslmode = "require" // Default to secure connection for production
+			}
+			dbURL = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
+				host, port, user, password, dbname, sslmode)
+			fmt.Printf("🔧 Using individual database environment variables\n")
+		} else if os.Getenv("GIN_MODE") != "release" {
 			// Development fallback
-			host := getEnvDefault("DB_HOST", "localhost")
-			port := getEnvDefault("DB_PORT", "5432")
-			user := getEnvDefault("DB_USER", "cvadmin")
-			password := getEnvDefault("DB_PASSWORD", "cv2024secure")
-			dbname := getEnvDefault("DB_NAME", "curriculum_vitae_dev")
-			sslmode := getEnvDefault("DB_SSLMODE", "disable")
+			host = getEnvDefault("DB_HOST", "localhost")
+			port = getEnvDefault("DB_PORT", "5432")
+			user = getEnvDefault("DB_USER", "cvadmin")
+			password = getEnvDefault("DB_PASSWORD", "cv2024secure")
+			dbname = getEnvDefault("DB_NAME", "curriculum_vitae_dev")
+			sslmode = getEnvDefault("DB_SSLMODE", "disable")
 			
 			dbURL = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 				host, port, user, password, dbname, sslmode)
 			fmt.Printf("🔧 Development mode: using local database connection\n")
 		} else {
-			return fmt.Errorf("DATABASE_URL environment variable is required for production deployment")
+			return fmt.Errorf("DATABASE_URL environment variable or individual DB_* variables are required for production deployment")
 		}
 	}
 

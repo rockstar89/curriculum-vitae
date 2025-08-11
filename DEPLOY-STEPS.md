@@ -17,14 +17,16 @@
 1. From dashboard, click **"New +"** button
 2. Select **"PostgreSQL"**
 3. Configure database:
-   - **Name:** `cv-postgres`
-   - **Database:** `curriculum_vitae`
-   - **User:** `cvadmin`
+   - **Name:** `cv-postgres` (or your custom name)
+   - **Database:** `curriculum_vitae` (or your custom database name)
+   - **User:** `cvadmin` (or your custom username)
    - **Region:** Choose closest to you (e.g., Oregon USA / Frankfurt EU)
    - **Plan:** `Free`
 4. Click **"Create Database"**
 5. **Wait 2-3 minutes** for database to be created
 6. **Copy the "Internal Database URL"** - you'll need this next!
+
+💡 **Custom Database Names:** You can use any database name, username, or password. Just make sure to use the same values in your environment variables.
 
 ### Step 3: Create Web Service
 1. Click **"New +"** button → **"Web Service"**
@@ -45,8 +47,11 @@ Fill in these settings:
 - **Instance Type:** `Free`
 
 ### Step 5: Add Environment Variables
-⚠️ **Critical: Add DATABASE_URL first!**
+⚠️ **Critical: Add database connection variables!**
 
+**Choose ONE of these two approaches:**
+
+#### **Option A: Use DATABASE_URL (Recommended)**
 Scroll down to **"Environment Variables"** and add:
 
 | Key | Value | Example |
@@ -57,6 +62,25 @@ Scroll down to **"Environment Variables"** and add:
 | ADMIN_USERNAME | *(choose your username)* | `admin` |
 | ADMIN_PASSWORD | *(choose strong password)* | `SecurePass123!` |
 | JWT_SECRET | *(generate random 32 chars)* | `abc123xyz...` |
+
+#### **Option B: Use Individual Database Variables (Alternative)**
+If you prefer more control over database connection:
+
+| Key | Value | Example |
+|-----|-------|---------|
+| **DB_HOST** | *(Database host from database dashboard)* | `dpg-xxx-a.oregon-postgres.render.com` |
+| **DB_PORT** | 5432 | `5432` |
+| **DB_USER** | *(Database username from Step 2)* | `cvadmin` |
+| **DB_PASSWORD** | *(Database password from Step 2)* | `generated_password` |
+| **DB_NAME** | *(Database name from Step 2)* | `curriculum_vitae` |
+| **DB_SSLMODE** | require | `require` |
+| PORT | 8080 | `8080` |
+| GIN_MODE | release | `release` |
+| ADMIN_USERNAME | *(choose your username)* | `admin` |
+| ADMIN_PASSWORD | *(choose strong password)* | `SecurePass123!` |
+| JWT_SECRET | *(generate random 32 chars)* | `abc123xyz...` |
+
+💡 **Don't use both options!** Choose either DATABASE_URL OR individual DB_* variables.
 
 **To generate JWT_SECRET:** Use https://randomkeygen.com/ (256-bit key)
 
@@ -75,6 +99,26 @@ Scroll down to **"Environment Variables"** and add:
 ### Step 7: Test Backend
 Visit: `https://YOUR-BACKEND-URL.onrender.com/health`
 Should see: `{"service":"cv-backend","status":"ok"}`
+
+---
+
+## Alternative: Automatic Deployment with render.yaml
+
+If you prefer automatic deployment, your repository includes `render.yaml` configuration:
+
+1. **Push code to GitHub** (database and web service will be created automatically)
+2. **Go to Render Dashboard** → **"New +"** → **"YAML"**
+3. **Connect your repository** and select `render.yaml`
+4. **Add required environment variables manually:**
+   - `ADMIN_USERNAME`
+   - `ADMIN_PASSWORD` 
+   - `JWT_SECRET`
+5. **Deploy** - database and web service created automatically!
+
+💡 **Custom Database with render.yaml:**
+- Edit `render.yaml` to change database name, user, etc.
+- Or use `render-custom-db.yaml` for more options
+- Rename to `render.yaml` before deployment
 
 ---
 
@@ -226,6 +270,70 @@ Frontend (Vercel) → Backend (Render) → PostgreSQL (Render)
 - User data in database tables
 - No filesystem dependencies
 - $0 cost with persistent storage
+```
+
+---
+
+## Local Development Setup
+
+### Using Docker (Recommended)
+```bash
+# Clone repository
+git clone https://github.com/rockstar89/curriculum-vitae.git
+cd curriculum-vitae
+
+# Option 1: Start full stack
+docker-compose up --build
+
+# Option 2: Start database only (for development)
+docker-compose -f docker/docker-compose.dev.yml up -d
+```
+
+### Custom Database Credentials (Docker)
+Create `.env` file in root directory:
+```bash
+# Copy example file
+cp .env.example .env
+
+# Edit values
+POSTGRES_DB=my_cv_app
+POSTGRES_USER=myuser  
+POSTGRES_PASSWORD=mypassword
+
+# Use with Docker
+docker-compose up --build
+```
+
+### Manual Setup
+```bash
+# Start PostgreSQL database
+docker-compose -f docker/docker-compose.dev.yml up -d
+
+# Start backend
+cd backend
+go mod tidy
+go run cmd/main.go
+
+# Start frontend (new terminal)
+cd frontend
+npm install
+npm start
+```
+
+### Environment Variables for Development
+Create `backend/.env`:
+```
+PORT=8080
+GIN_MODE=debug
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin123
+JWT_SECRET=dev-secret-key-change-in-production
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=cvadmin
+DB_PASSWORD=cv2024secure
+DB_NAME=curriculum_vitae_dev
+DB_SSLMODE=disable
 ```
 
 ---
