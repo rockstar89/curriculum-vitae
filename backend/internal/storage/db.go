@@ -1,51 +1,64 @@
 package storage
 
 import (
-	"database/sql"
+	"cv-backend/internal/models"
 	"fmt"
 	"os"
 	"time"
 
-	_ "github.com/lib/pq"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
-var db *sql.DB
+var DB *gorm.DB
 
-// InitDB initializes the database connection with retry logic
+// InitDB initializes the database connection with GORM and retry logic
 func InitDB() error {
 	// Get database connection string from environment
-	dbURL := os.Getenv("DATABASE_URL")
-	if dbURL == "" {
+	dsn := os.Getenv("DATABASE_URL")
+	if dsn == "" {
 		// For development mode, use default local database
 		if os.Getenv("GIN_MODE") != "release" {
-			dbURL = "postgresql://cvadmin:cv2024secure@localhost:5432/curriculum_vitae_dev?sslmode=disable"
+			dsn = "postgresql://cvadmin:cv2024secure@localhost:5432/curriculum_vitae_dev?sslmode=disable"
 			fmt.Printf("🔧 Development mode: using default local database\n")
 		} else {
 			return fmt.Errorf("DATABASE_URL environment variable is required for production deployment")
 		}
 	}
 
-	fmt.Printf("Attempting to connect to database...\n")
+	fmt.Printf("Attempting to connect to database with GORM...\n")
 
-	var err error
-	db, err = sql.Open("postgres", dbURL)
-	if err != nil {
-		return fmt.Errorf("failed to open database: %w", err)
+	// Configure GORM logger
+	var gormLogger logger.Interface
+	if os.Getenv("GIN_MODE") == "release" {
+		gormLogger = logger.Default.LogMode(logger.Silent)
+	} else {
+		gormLogger = logger.Default.LogMode(logger.Info)
 	}
 
 	// Retry connection with backoff
 	maxRetries := 10
 	for i := 0; i < maxRetries; i++ {
-		if err = db.Ping(); err == nil {
-			fmt.Printf("✅ Database connected successfully\n")
-			
-			// Create tables if they don't exist
-			if err := createTables(); err != nil {
-				return fmt.Errorf("failed to create database tables: %w", err)
+		var err error
+		DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+			Logger: gormLogger,
+		})
+		
+		if err == nil {
+			// Test the connection
+			sqlDB, err := DB.DB()
+			if err == nil && sqlDB.Ping() == nil {
+				fmt.Printf("✅ Database connected successfully with GORM\n")
+				
+				// Auto-migrate the schema
+				if err := autoMigrate(); err != nil {
+					return fmt.Errorf("failed to migrate database schema: %w", err)
+				}
+				fmt.Printf("✅ Database schema migrated\n")
+				
+				return nil
 			}
-			fmt.Printf("✅ Database tables initialized\n")
-			
-			return nil
 		}
 		
 		fmt.Printf("⏳ Database connection attempt %d/%d failed, retrying in %d seconds...\n", 
@@ -53,59 +66,18 @@ func InitDB() error {
 		time.Sleep(time.Duration((i+1)*2) * time.Second)
 	}
 
-	return fmt.Errorf("failed to connect to database after %d attempts: %w", maxRetries, err)
+	return fmt.Errorf("failed to connect to database after %d attempts", maxRetries)
 }
 
-// GetDB returns the database connection
-func GetDB() *sql.DB {
-	return db
+// GetDB returns the GORM database instance
+func GetDB() *gorm.DB {
+	return DB
 }
 
-// createTables creates the required database tables if they don't exist
-func createTables() error {
-	// Create users table
-	usersTable := `
-	CREATE TABLE IF NOT EXISTS users (
-		id SERIAL PRIMARY KEY,
-		username VARCHAR(255) UNIQUE NOT NULL,
-		password_hash VARCHAR(255) NOT NULL,
-		first_login BOOLEAN DEFAULT true,
-		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-		last_password_change TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-		login_count INTEGER DEFAULT 0,
-		last_login_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-	);
-	
-	CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
-	`
-
-	// Create cv_files table
-	cvFilesTable := `
-	CREATE TABLE IF NOT EXISTS cv_files (
-		id SERIAL PRIMARY KEY,
-		filename VARCHAR(255) NOT NULL,
-		original_name VARCHAR(255) NOT NULL,
-		content_type VARCHAR(100) NOT NULL DEFAULT 'application/pdf',
-		file_size BIGINT NOT NULL,
-		file_data BYTEA NOT NULL,
-		is_current BOOLEAN DEFAULT true,
-		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-		updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-	);
-	
-	CREATE INDEX IF NOT EXISTS idx_cv_files_current ON cv_files(is_current) WHERE is_current = true;
-	CREATE INDEX IF NOT EXISTS idx_cv_files_created_at ON cv_files(created_at);
-	`
-
-	// Execute table creation
-	if _, err := db.Exec(usersTable); err != nil {
-		return fmt.Errorf("failed to create users table: %w", err)
-	}
-
-	if _, err := db.Exec(cvFilesTable); err != nil {
-		return fmt.Errorf("failed to create cv_files table: %w", err)
-	}
-
-	return nil
+// autoMigrate runs GORM auto-migration for all models
+func autoMigrate() error {
+	return DB.AutoMigrate(
+		&models.User{},
+		&models.CVFile{},
+	)
 }
-

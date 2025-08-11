@@ -1,27 +1,17 @@
 package storage
 
 import (
-	"database/sql"
+	"cv-backend/internal/models"
 	"fmt"
 	"io"
 	"time"
-)
 
-// CVFile represents a CV file stored in the database
-type CVFile struct {
-	ID           int       `json:"id"`
-	FileName     string    `json:"fileName"`
-	OriginalName string    `json:"originalName"`
-	FileSize     int64     `json:"fileSize"`
-	ContentType  string    `json:"contentType"`
-	IsCurrent    bool      `json:"isCurrent"`
-	CreatedAt    time.Time `json:"createdAt"`
-	UpdatedAt    time.Time `json:"updatedAt"`
-}
+	"gorm.io/gorm"
+)
 
 // CVStorage handles CV file operations in the database
 type CVStorage struct {
-	db *sql.DB
+	db *gorm.DB
 }
 
 // NewCVStorage creates a new CVStorage instance
@@ -32,7 +22,7 @@ func NewCVStorage() *CVStorage {
 }
 
 // UploadCV saves a CV file to database (replaces existing CV)
-func (cs *CVStorage) UploadCV(file io.Reader, originalName string, fileSize int64, contentType string) (*CVFile, error) {
+func (cs *CVStorage) UploadCV(file io.Reader, originalName string, fileSize int64, contentType string) (*models.CVFile, error) {
 	// Read file data
 	fileData, err := io.ReadAll(file)
 	if err != nil {
@@ -40,35 +30,36 @@ func (cs *CVStorage) UploadCV(file io.Reader, originalName string, fileSize int6
 	}
 
 	// Start transaction
-	tx, err := cs.db.Begin()
-	if err != nil {
-		return nil, fmt.Errorf("failed to start transaction: %w", err)
+	tx := cs.db.Begin()
+	if tx.Error != nil {
+		return nil, fmt.Errorf("failed to start transaction: %w", tx.Error)
 	}
 	defer tx.Rollback()
 
 	// Mark all existing files as not current
-	_, err = tx.Exec("UPDATE cv_files SET is_current = false, updated_at = CURRENT_TIMESTAMP")
-	if err != nil {
+	if err := tx.Model(&models.CVFile{}).Where("is_current = ?", true).Updates(map[string]interface{}{
+		"is_current": false,
+		"updated_at": time.Now(),
+	}).Error; err != nil {
 		return nil, fmt.Errorf("failed to update existing files: %w", err)
 	}
 
 	// Insert new CV file
-	var cvFile CVFile
-	err = tx.QueryRow(`
-		INSERT INTO cv_files (filename, original_name, content_type, file_size, file_data, is_current, created_at, updated_at)
-		VALUES ($1, $2, $3, $4, $5, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-		RETURNING id, filename, original_name, content_type, file_size, is_current, created_at, updated_at
-	`, "current_cv.pdf", originalName, contentType, fileSize, fileData).Scan(
-		&cvFile.ID, &cvFile.FileName, &cvFile.OriginalName, 
-		&cvFile.ContentType, &cvFile.FileSize, &cvFile.IsCurrent,
-		&cvFile.CreatedAt, &cvFile.UpdatedAt,
-	)
-	if err != nil {
+	cvFile := models.CVFile{
+		FileName:     "current_cv.pdf",
+		OriginalName: originalName,
+		ContentType:  contentType,
+		FileSize:     fileSize,
+		FileData:     fileData,
+		IsCurrent:    true,
+	}
+
+	if err := tx.Create(&cvFile).Error; err != nil {
 		return nil, fmt.Errorf("failed to insert CV file: %w", err)
 	}
 
 	// Commit transaction
-	if err = tx.Commit(); err != nil {
+	if err := tx.Commit().Error; err != nil {
 		return nil, fmt.Errorf("failed to commit transaction: %w", err)
 	}
 
@@ -76,22 +67,14 @@ func (cs *CVStorage) UploadCV(file io.Reader, originalName string, fileSize int6
 }
 
 // GetCurrentCV returns the current CV file metadata
-func (cs *CVStorage) GetCurrentCV() (*CVFile, error) {
-	var cvFile CVFile
-	err := cs.db.QueryRow(`
-		SELECT id, filename, original_name, content_type, file_size, is_current, created_at, updated_at
-		FROM cv_files 
-		WHERE is_current = true 
-		ORDER BY created_at DESC 
-		LIMIT 1
-	`).Scan(
-		&cvFile.ID, &cvFile.FileName, &cvFile.OriginalName,
-		&cvFile.ContentType, &cvFile.FileSize, &cvFile.IsCurrent,
-		&cvFile.CreatedAt, &cvFile.UpdatedAt,
-	)
+func (cs *CVStorage) GetCurrentCV() (*models.CVFile, error) {
+	var cvFile models.CVFile
+	err := cs.db.Where("is_current = ?", true).
+		Order("created_at DESC").
+		First(&cvFile).Error
 
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if err == gorm.ErrRecordNotFound {
 			return nil, nil // No CV found
 		}
 		return nil, fmt.Errorf("failed to get current CV: %w", err)
@@ -101,45 +84,31 @@ func (cs *CVStorage) GetCurrentCV() (*CVFile, error) {
 }
 
 // GetCurrentCVWithData returns the current CV with file data
-func (cs *CVStorage) GetCurrentCVWithData() (*CVFile, []byte, error) {
-	var cvFile CVFile
-	var fileData []byte
+func (cs *CVStorage) GetCurrentCVWithData() (*models.CVFile, []byte, error) {
+	var cvFile models.CVFile
 	
-	err := cs.db.QueryRow(`
-		SELECT id, filename, original_name, content_type, file_size, is_current, created_at, updated_at, file_data
-		FROM cv_files 
-		WHERE is_current = true 
-		ORDER BY created_at DESC 
-		LIMIT 1
-	`).Scan(
-		&cvFile.ID, &cvFile.FileName, &cvFile.OriginalName,
-		&cvFile.ContentType, &cvFile.FileSize, &cvFile.IsCurrent,
-		&cvFile.CreatedAt, &cvFile.UpdatedAt, &fileData,
-	)
+	err := cs.db.Where("is_current = ?", true).
+		Order("created_at DESC").
+		First(&cvFile).Error
 
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if err == gorm.ErrRecordNotFound {
 			return nil, nil, nil // No CV found
 		}
 		return nil, nil, fmt.Errorf("failed to get current CV with data: %w", err)
 	}
 
-	return &cvFile, fileData, nil
+	return &cvFile, cvFile.FileData, nil
 }
 
 // DeleteCV deletes the current CV file
 func (cs *CVStorage) DeleteCV() error {
-	result, err := cs.db.Exec("DELETE FROM cv_files WHERE is_current = true")
-	if err != nil {
-		return fmt.Errorf("failed to delete CV: %w", err)
+	result := cs.db.Where("is_current = ?", true).Delete(&models.CVFile{})
+	if result.Error != nil {
+		return fmt.Errorf("failed to delete CV: %w", result.Error)
 	}
 
-	rowsAffected, err := result.RowsAffected()
-	if err != nil {
-		return fmt.Errorf("failed to get affected rows: %w", err)
-	}
-
-	if rowsAffected == 0 {
+	if result.RowsAffected == 0 {
 		return fmt.Errorf("no CV found to delete")
 	}
 
@@ -148,18 +117,20 @@ func (cs *CVStorage) DeleteCV() error {
 
 // GetStats returns statistics about CV files
 func (cs *CVStorage) GetStats() (int, int64, error) {
-	var fileCount int
-	var totalSize int64
+	type stats struct {
+		FileCount int64 `gorm:"column:file_count"`
+		TotalSize int64 `gorm:"column:total_size"`
+	}
 
-	err := cs.db.QueryRow(`
-		SELECT COUNT(*), COALESCE(SUM(file_size), 0) 
-		FROM cv_files 
-		WHERE is_current = true
-	`).Scan(&fileCount, &totalSize)
+	var result stats
+	err := cs.db.Model(&models.CVFile{}).
+		Select("COUNT(*) as file_count, COALESCE(SUM(file_size), 0) as total_size").
+		Where("is_current = ?", true).
+		Scan(&result).Error
 
 	if err != nil {
 		return 0, 0, fmt.Errorf("failed to get stats: %w", err)
 	}
 
-	return fileCount, totalSize, nil
+	return int(result.FileCount), result.TotalSize, nil
 }
