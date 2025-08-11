@@ -37,12 +37,7 @@ services:
       - ADMIN_PASSWORD=cvadmin2024
       - CORS_ORIGIN=http://localhost:3000
       - GIN_MODE=release
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=${POSTGRES_USER:-cvadmin}
-      - DB_PASSWORD=${POSTGRES_PASSWORD:-cv2024secure}
-      - DB_NAME=${POSTGRES_DB:-curriculum_vitae}
-      - DB_SSLMODE=disable
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-cvadmin}:${POSTGRES_PASSWORD:-cv2024secure}@postgres:5432/${POSTGRES_DB:-curriculum_vitae}?sslmode=disable
     ports:
       - "8080:8080"
     depends_on:

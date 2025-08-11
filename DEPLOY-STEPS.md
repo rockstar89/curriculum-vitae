@@ -47,11 +47,8 @@ Fill in these settings:
 - **Instance Type:** `Free`
 
 ### Step 5: Add Environment Variables
-⚠️ **Critical: Add database connection variables!**
+⚠️ **Critical: Add DATABASE_URL and authentication variables!**
 
-**Choose ONE of these two approaches:**
-
-#### **Option A: Use DATABASE_URL (Recommended)**
 Scroll down to **"Environment Variables"** and add:
 
 | Key | Value | Example |
@@ -63,24 +60,7 @@ Scroll down to **"Environment Variables"** and add:
 | ADMIN_PASSWORD | *(choose strong password)* | `SecurePass123!` |
 | JWT_SECRET | *(generate random 32 chars)* | `abc123xyz...` |
 
-#### **Option B: Use Individual Database Variables (Alternative)**
-If you prefer more control over database connection:
-
-| Key | Value | Example |
-|-----|-------|---------|
-| **DB_HOST** | *(Database host from database dashboard)* | `dpg-xxx-a.oregon-postgres.render.com` |
-| **DB_PORT** | 5432 | `5432` |
-| **DB_USER** | *(Database username from Step 2)* | `cvadmin` |
-| **DB_PASSWORD** | *(Database password from Step 2)* | `generated_password` |
-| **DB_NAME** | *(Database name from Step 2)* | `curriculum_vitae` |
-| **DB_SSLMODE** | require | `require` |
-| PORT | 8080 | `8080` |
-| GIN_MODE | release | `release` |
-| ADMIN_USERNAME | *(choose your username)* | `admin` |
-| ADMIN_PASSWORD | *(choose strong password)* | `SecurePass123!` |
-| JWT_SECRET | *(generate random 32 chars)* | `abc123xyz...` |
-
-💡 **Don't use both options!** Choose either DATABASE_URL OR individual DB_* variables.
+💡 **DATABASE_URL:** Render provides this automatically when you create the database. Just copy the "Internal Database URL" from your PostgreSQL dashboard.
 
 **To generate JWT_SECRET:** Use https://randomkeygen.com/ (256-bit key)
 
@@ -328,12 +308,7 @@ GIN_MODE=debug
 ADMIN_USERNAME=admin
 ADMIN_PASSWORD=admin123
 JWT_SECRET=dev-secret-key-change-in-production
-DB_HOST=localhost
-DB_PORT=5432
-DB_USER=cvadmin
-DB_PASSWORD=cv2024secure
-DB_NAME=curriculum_vitae_dev
-DB_SSLMODE=disable
+DATABASE_URL=postgresql://cvadmin:cv2024secure@localhost:5432/curriculum_vitae_dev?sslmode=disable
 ```
 
 ---
