@@ -12,6 +12,8 @@ services:
     rootDir: backend
     dockerfilePath: ./Dockerfile
     plan: free
+    buildCommand: ""
+    startCommand: ""
     envVars:
       - key: PORT
         value: 8080
