@@ -1,0 +1,134 @@
+// CSS Custom Properties (CSS Variables)
+:root {
+  // Colors
+  --primary-color: #1e293b;
+  --secondary-color: #06b6d4;
+  --accent-color: #10b981;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  
+  // Text Colors
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --text-inverse: #ffffff;
+  
+  // Backgrounds
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --bg-inverse: #1e293b;
+  --bg-header: #ffffff;
+  
+  // Button Colors
+  --btn-primary-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --btn-primary-text: #ffffff;
+  --btn-secondary-bg: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+  --btn-secondary-text: #ffffff;
+  --btn-secondary-border: rgba(6, 182, 212, 0.3);
+  
+  // Header Pattern Colors (light theme)
+  --pattern-color-light: rgba(30, 41, 59, 0.05);
+  --pattern-color-medium: rgba(30, 41, 59, 0.04);
+  --pattern-color-faint: rgba(30, 41, 59, 0.03);
+  --pattern-color-very-faint: rgba(30, 41, 59, 0.02);
+  
+  // Gradients
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-secondary: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  
+  // Shadows
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  // Spacing
+  --container-max-width: 1200px;
+  --container-padding: 20px;
+  
+  // Typography
+  --font-family-primary: 'Outfit', sans-serif;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  
+  // Transitions
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  --transition-bezier: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  // Border Radius
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-full: 50%;
+  
+  // Z-index
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-popover: 600;
+  --z-tooltip: 700;
+}
+
+// Dark theme variables
+[data-theme="dark"] {
+  // Colors
+  --primary-color: #cbd5e1;
+  --secondary-color: #06b6d4;
+  
+  // Text Colors
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-inverse: #1e293b;
+  
+  // Backgrounds
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --bg-inverse: #ffffff;
+  --bg-header: #2d3748;
+  
+  // Button Colors (enhanced for dark mode)
+  --btn-secondary-bg: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+  --btn-secondary-border: rgba(14, 165, 233, 0.4);
+  
+  // Header Pattern Colors (dark theme - much more visible)
+  --pattern-color-light: rgba(255, 255, 255, 0.15);
+  --pattern-color-medium: rgba(255, 255, 255, 0.12);
+  --pattern-color-faint: rgba(255, 255, 255, 0.10);
+  --pattern-color-very-faint: rgba(255, 255, 255, 0.08);
+  
+  // Shadows (adjusted for dark theme)
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+}
+
+// SCSS Variables (for calculations and mixins)
+$breakpoints: (
+  xs: 480px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+// Animation timings
+$animation-duration-fast: 0.2s;
+$animation-duration-normal: 0.3s;
+$animation-duration-slow: 0.5s;

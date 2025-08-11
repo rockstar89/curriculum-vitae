@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": {
+      "en": "Professional Services",
+      "sr": "Професионалне услуге"
+    },
+    "experience": {
+      "en": "PwC - Current",
+      "sr": "PwC - Тренутно"
+    },
+    "category": {
+      "en": "Current",
+      "sr": "Тренутно"
+    }
+  },
+  {
+    "id": 2,
+    "name": {
+      "en": "Healthcare Technology",
+      "sr": "Здравствене технологије"
+    },
+    "experience": {
+      "en": "Dental EPMS",
+      "sr": "Стоматолошки EPMS"
+    },
+    "category": {
+      "en": "Enterprise",
+      "sr": "Предузеће"
+    }
+  },
+  {
+    "id": 3,
+    "name": {
+      "en": "Information Services",
+      "sr": "Информационе услуге"
+    },
+    "experience": {
+      "en": "Team Leadership",
+      "sr": "Вођење тима"
+    },
+    "category": {
+      "en": "Leadership",
+      "sr": "Лидерство"
+    }
+  },
+  {
+    "id": 4,
+    "name": {
+      "en": "Enterprise Systems",
+      "sr": "Корпоративни системи"
+    },
+    "experience": {
+      "en": "25K+ Users",
+      "sr": "25К+ корисника"
+    },
+    "category": {
+      "en": "Scale",
+      "sr": "Скала"
+    }
+  }
+]

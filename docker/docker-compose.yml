@@ -1,0 +1,80 @@
+version: '3.8'
+
+name: curriculum-vitae
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: cv-postgres
+    environment:
+      POSTGRES_DB: curriculum_vitae
+      POSTGRES_USER: cvadmin
+      POSTGRES_PASSWORD: cv2024secure
+    ports:
+      - "5432:5432"
+    volumes:
+      - curriculum_vitae_postgres:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - curriculum-vitae-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cvadmin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Go Backend API
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: cv-backend
+    environment:
+      - PORT=8080
+      - JWT_SECRET=cv-jwt-secret-2024-super-secure-key-change-in-production
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=cvadmin2024
+      - CORS_ORIGIN=http://localhost:3000
+      - GIN_MODE=release
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=cvadmin
+      - DB_PASSWORD=cv2024secure
+      - DB_NAME=curriculum_vitae
+      - DB_SSLMODE=disable
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - curriculum-vitae-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # React Frontend
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: cv-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - curriculum-vitae-network
+    environment:
+      - REACT_APP_API_URL=http://localhost:8080
+
+
+volumes:
+  curriculum_vitae_postgres:
+    driver: local
+
+networks:
+  curriculum-vitae-network:
+    driver: bridge

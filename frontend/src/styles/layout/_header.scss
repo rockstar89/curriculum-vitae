@@ -1,0 +1,120 @@
+.header {
+  @include blur-background;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: var(--shadow-md);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: var(--z-fixed);
+  transition: var(--transition-bezier);
+  position: relative;
+  overflow: hidden;
+  background-color: var(--bg-primary);
+  backdrop-filter: blur(20px);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      // Microservice nodes
+      radial-gradient(circle at 15% 30%, var(--pattern-color-light) 2px, transparent 2px),
+      radial-gradient(circle at 85% 70%, var(--pattern-color-light) 2px, transparent 2px),
+      radial-gradient(circle at 45% 20%, var(--pattern-color-light) 2px, transparent 2px),
+      radial-gradient(circle at 75% 40%, var(--pattern-color-light) 2px, transparent 2px),
+      radial-gradient(circle at 25% 80%, var(--pattern-color-light) 2px, transparent 2px),
+      radial-gradient(circle at 65% 85%, var(--pattern-color-light) 2px, transparent 2px),
+      // Connection lines
+      linear-gradient(45deg, transparent 48%, var(--pattern-color-faint) 49%, var(--pattern-color-faint) 51%, transparent 52%),
+      linear-gradient(-45deg, transparent 48%, var(--pattern-color-faint) 49%, var(--pattern-color-faint) 51%, transparent 52%),
+      // Grid pattern
+      linear-gradient(90deg, var(--pattern-color-very-faint) 1px, transparent 1px),
+      linear-gradient(var(--pattern-color-very-faint) 1px, transparent 1px);
+    background-size: 
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      120px 120px,
+      120px 120px,
+      40px 40px,
+      40px 40px;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      // API endpoints
+      radial-gradient(circle at 35% 50%, var(--pattern-color-medium) 1px, transparent 1px),
+      radial-gradient(circle at 90% 30%, var(--pattern-color-medium) 1px, transparent 1px),
+      radial-gradient(circle at 10% 70%, var(--pattern-color-medium) 1px, transparent 1px),
+      // Database symbols
+      radial-gradient(ellipse 3px 6px at 55% 75%, var(--pattern-color-medium), transparent),
+      radial-gradient(ellipse 3px 6px at 80% 60%, var(--pattern-color-medium), transparent);
+    background-size: 
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      100% 100%;
+    pointer-events: none;
+    opacity: 0.4;
+  }
+}
+
+.nav {
+  @include flex-between;
+  padding: 1rem 0;
+  position: relative;
+  z-index: 2;
+}
+
+.logo {
+  h1 {
+    @include text-gradient;
+    font-size: 1.8rem;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 0.2rem;
+    transition: var(--transition-normal);
+  }
+
+  .tagline {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-medium);
+    opacity: 0.8;
+  }
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+
+  a {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: var(--font-weight-medium);
+    transition: color var(--transition-normal);
+
+    &:hover {
+      color: var(--secondary-color);
+    }
+  }
+
+  @include respond-to(md) {
+    display: none;
+  }
+}

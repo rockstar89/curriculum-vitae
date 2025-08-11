@@ -1,0 +1,32 @@
+[
+  {
+    "name": {
+      "en": "Guitar & Drums",
+      "sr": "Гитара и бубњеви"
+    },
+    "category": {
+      "en": "Music",
+      "sr": "Музика"
+    }
+  },
+  {
+    "name": {
+      "en": "Learning Languages",
+      "sr": "Учење језика"
+    },
+    "category": {
+      "en": "Education",
+      "sr": "Едукација"
+    }
+  },
+  {
+    "name": {
+      "en": "Snowboarding & Basketball",
+      "sr": "Сноубординг и кошарка"
+    },
+    "category": {
+      "en": "Sports",
+      "sr": "Спорт"
+    }
+  }
+]

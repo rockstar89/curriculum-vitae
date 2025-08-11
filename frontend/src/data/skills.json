@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "category": {
+      "en": "Backend Technologies",
+      "sr": "Backend технологије"
+    },
+    "skills": [".NET", ".NET Core", ".NET 6", ".NET 7", "ASP.NET MVC", "Entity Framework"]
+  },
+  {
+    "id": 2,
+    "category": {
+      "en": "Frontend Technologies",
+      "sr": "Frontend технологије"
+    },
+    "skills": ["Angular", "React", "NgRx", "TypeScript", "JavaScript", "jQuery"]
+  },
+  {
+    "id": 3,
+    "category": {
+      "en": "Cloud & Infrastructure",
+      "sr": "Cloud и инфраструктура"
+    },
+    "skills": ["Microsoft Azure", "AWS", "Docker", "Azure Service Bus", "Azure Functions", "WebJobs"]
+  },
+  {
+    "id": 4,
+    "category": {
+      "en": "Architecture & Patterns",
+      "sr": "Архитектура и патерни"
+    },
+    "skills": ["Microservices", "Domain-Driven Design (DDD)", "Design Patterns", "Architectural Principles"]
+  },
+  {
+    "id": 5,
+    "category": {
+      "en": "Databases & Messaging",
+      "sr": "Базе података и порукама"
+    },
+    "skills": ["MongoDB", "PostgreSQL", "MS SQL", "Redis", "RabbitMQ", "SignalR", "gRPC"]
+  },
+  {
+    "id": 6,
+    "category": {
+      "en": "Tools & Technologies",
+      "sr": "Алати и технологије"
+    },
+    "skills": ["Elasticsearch", "GraphQL", "Sitecore", "Windows Forms", "Micro Frontends"]
+  }
+]

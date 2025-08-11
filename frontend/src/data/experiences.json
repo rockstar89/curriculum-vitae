@@ -1,0 +1,97 @@
+[
+  {
+    "id": 1,
+    "title": "Senior Fullstack Engineer (Contractor)",
+    "company": "PwC",
+    "industry": "Professional Services",
+    "period": {
+      "en": "2023 - Current",
+      "sr": "2023 - Тренутно"
+    },
+    "location": {
+      "en": "Belgrade, Serbia",
+      "sr": "Београд, Србија"
+    },
+    "description": {
+      "en": "Responsible for direct communication with clients, working as part of a distributed team. Participated in the implementation of microservice architecture on Azure, following best practices for scalable and maintainable development. Utilized modern technologies such as .NET 7, Angular, and micro frontends.",
+      "sr": "Одговоран за директну комуникацију са клијентима, радећи као део дистрибуираног тима. Учествовао у имплементацији микросервисне архитектуре на Azure-у, пратећи најбоље праксе за скалабилан и одржив развој. Користио модерне технологије као што су .NET 7, Angular и micro frontends."
+    },
+    "technologies": [".NET 7", "Angular", "Azure", "Micro Frontends", "MS SQL", "RabbitMQ"]
+  },
+  {
+    "id": 2,
+    "title": "Senior .NET Engineer (Contractor)",
+    "company": "Rokolabs",
+    "industry": "Software Development",
+    "period": {
+      "en": "2022 - 2024",
+      "sr": "2022 - 2024"
+    },
+    "location": {
+      "en": "Belgrade, Serbia",
+      "sr": "Београд, Србија"
+    },
+    "description": {
+      "en": "Contributed to the implementation of microservice architecture using Docker and AWS, following best practices for modern microservice development. Collaborated with a distributed team, responsible for direct communication with clients and worked extensively with .NET 6 and .NET 7.",
+      "sr": "Допринео имплементацији микросервисне архитектуре користећи Docker и AWS, пратећи најбоље праксе за модеран развој микросервиса. Сарађивао са дистрибуираним тимом, одговоран за директну комуникацију са клијентима и интензивно радио са .NET 6 и .NET 7."
+    },
+    "technologies": [".NET 6", ".NET 7", "Docker", "AWS", "RabbitMQ", "gRPC", "Redis", "PostgreSQL", "Elasticsearch", "GraphQL"]
+  },
+  {
+    "id": 3,
+    "title": "Senior .NET Engineer",
+    "company": "Interventure",
+    "industry": "Healthcare Technology",
+    "period": {
+      "en": "2022 - 2023",
+      "sr": "2022 - 2023"
+    },
+    "location": {
+      "en": "Belgrade, Serbia",
+      "sr": "Београд, Србија"
+    },
+    "description": {
+      "en": "Worked as part of a distributed team assigned to one of the largest dental support organizations in the United States. Contributed to the development and maintenance of an Enterprise Practice Management System (EPMS) used by over 25,000 patients across more than 900 locations.",
+      "sr": "Радио као део дистрибуираног тима додељеног једној од највећих организација за подршку стоматолошких ординација у Сједињеним Државама. Допринео развоју и одржавању Enterprise Practice Management System (EPMS) који користи преко 25,000 пацијената у више од 900 локација."
+    },
+    "technologies": [".NET", "Microservices", "Enterprise Systems", "Legacy Code Refactoring"]
+  },
+  {
+    "id": 4,
+    "title": "Team Lead/Tech Lead",
+    "company": "Clarivate",
+    "industry": "Information Services",
+    "period": {
+      "en": "2020 - 2022",
+      "sr": "2020 - 2022"
+    },
+    "location": {
+      "en": "Belgrade, Serbia",
+      "sr": "Београд, Србија"
+    },
+    "description": {
+      "en": "Led a team of 6–8 engineers while collaborating closely with external teams on a large-scale project. Responsible for designing and implementing microservice architecture from scratch on Azure, applying Domain-Driven Design (DDD) principles.",
+      "sr": "Водио тим од 6–8 инжењера док је блиско сарађивао са спољним тимовима на великом пројекту. Одговоран за дизајнирање и имплементацију микросервисне архитектуре од почетка на Azure-у, примењујући принципе Domain-Driven Design (DDD)."
+    },
+    "technologies": ["Azure", "DDD", "Azure Service Bus", "Azure Functions", "WebJobs", "MongoDB", "SignalR"]
+  },
+  {
+    "id": 5,
+    "title": "Senior .NET Engineer (Contractor)",
+    "company": "RareCrew",
+    "industry": "Software Development",
+    "period": {
+      "en": "2019 - 2020",
+      "sr": "2019 - 2020"
+    },
+    "location": {
+      "en": "Belgrade, Serbia",
+      "sr": "Београд, Србија"
+    },
+    "description": {
+      "en": "Participated in building a greenfield project from scratch using .NET Core 3.0 on the backend and Angular 8 on the frontend. Followed best practices for frontend architecture, with a strong focus on scalable state management using NgRx.",
+      "sr": "Учествовао у изградњи greenfield пројекта од почетка користећи .NET Core 3.0 на backend-у и Angular 8 на frontend-у. Пратио најбоље праксе за frontend архитектуру, са јаким фокусом на скалабилно управљање стањем помоћу NgRx."
+    },
+    "technologies": [".NET Core 3.0", "Angular 8", "NgRx", "Frontend Architecture"]
+  }
+]

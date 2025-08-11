@@ -1,0 +1,46 @@
+[
+  {
+    "name": {
+      "en": "Serbian",
+      "sr": "Српски"
+    },
+    "level": {
+      "en": "Native",
+      "sr": "Матерњи"
+    },
+    "proficiency": 100
+  },
+  {
+    "name": {
+      "en": "English",
+      "sr": "Енглески"
+    },
+    "level": {
+      "en": "Professional",
+      "sr": "Професионални"
+    },
+    "proficiency": 85
+  },
+  {
+    "name": {
+      "en": "German",
+      "sr": "Немачки"
+    },
+    "level": {
+      "en": "Elementary",
+      "sr": "Основни"
+    },
+    "proficiency": 40
+  },
+  {
+    "name": {
+      "en": "Japanese",
+      "sr": "Јапански"
+    },
+    "level": {
+      "en": "Basic",
+      "sr": "Почетни"
+    },
+    "proficiency": 10
+  }
+]

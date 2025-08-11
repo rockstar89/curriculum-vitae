@@ -1,0 +1,93 @@
+// Media Query Mixins
+@mixin respond-to($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (max-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint: #{$breakpoint}";
+  }
+}
+
+// Flexbox Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Button Mixins
+@mixin button-base {
+  padding: 14px 28px;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: var(--transition-bezier);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  font-family: var(--font-family-primary);
+}
+
+@mixin button-hover-effect {
+  &:hover {
+    transform: translateY(-3px) scale(1.02);
+  }
+}
+
+// Card Mixins
+@mixin card-base {
+  background: var(--bg-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-bezier);
+  border: 1px solid var(--bg-tertiary);
+  backdrop-filter: blur(20px);
+}
+
+@mixin card-hover {
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+  }
+}
+
+// Text Mixins
+@mixin text-gradient {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Container Mixin
+@mixin container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+// Section Padding
+@mixin section-padding {
+  padding: 80px 0;
+}
+
+// Blur Background
+@mixin blur-background {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}

@@ -1,0 +1,48 @@
+version: '3.8'
+
+name: curriculum-vitae-dev
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: cv-postgres-dev
+    environment:
+      POSTGRES_DB: curriculum_vitae_dev
+      POSTGRES_USER: cvadmin
+      POSTGRES_PASSWORD: cv2024secure
+    ports:
+      - "5432:5432"
+    volumes:
+      - curriculum_vitae_dev_postgres:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - curriculum-vitae-dev-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cvadmin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # pgAdmin for database administration
+  pgladmin:
+    image: dpage/pgadmin4:7
+    container_name: cv-pgadmin-dev
+    environment:
+      PGLADMIN_DEFAULT_EMAIL: admin@curriculum-vitae.local
+      PGADMIN_DEFAULT_PASSWORD: pgadmin2024
+      PGLADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - curriculum-vitae-dev-network
+
+volumes:
+  curriculum_vitae_dev_postgres:
+    driver: local
+
+networks:
+  curriculum-vitae-dev-network:
+    driver: bridge

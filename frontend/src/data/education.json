@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "degree": {
+      "en": "Bachelor of Architecture",
+      "sr": "Дипломирани инжењер архитектуре"
+    },
+    "institution": {
+      "en": "Engineer of Architecture at VGGS",
+      "sr": "Инжењер струковних студија архитектуре"
+    },
+    "period": "2008 - 2014",
+    "location": {
+      "en": "Belgrade, Serbia",
+      "sr": "Београд, Србија"
+    },
+    "description": {
+      "en": "Comprehensive architectural education focusing on design principles, structural engineering, and project management.",
+      "sr": "Свеобухватно архитектонско образовање са фокусом на принципе дизајна, грађевинско инжењерство и управљање пројектима."
+    },
+    "type": "formal"
+  },
+  {
+    "id": 2,
+    "degree": {
+      "en": "Развој у Microsoft технологијама",
+      "sr": ""
+    },
+    "institution": {
+      "en": "IT Academy",
+      "sr": "ИТ Академија"
+    },
+    "period": "2014 - 2015",
+    "location": {
+      "en": "Belgrade, Serbia",
+      "sr": "Београд, Србија"
+    },
+    "description": {
+      "en": "Specialized training in Microsoft technologies, covering .NET framework, web development, and software engineering best practices.",
+      "sr": "Специјализована обука у Microsoft технологијама, покривајући .NET framework, web развој и најбоље праксе софтверског инжењерства."
+    },
+    "type": "professional"
+  }
+]

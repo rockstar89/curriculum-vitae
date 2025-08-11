@@ -1,0 +1,39 @@
+// Typography Styles
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+// Headings
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-extrabold);
+  margin-bottom: 3rem;
+  color: var(--text-primary);
+  position: relative;
+  z-index: 1;
+  letter-spacing: -0.025em;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+  }
+}
+
+// Text utilities
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-gradient {
+  @include text-gradient;
+}

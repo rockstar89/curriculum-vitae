@@ -1,0 +1,28 @@
+databases:
+  - name: cv-postgres
+    databaseName: curriculum_vitae
+    user: cvadmin
+    plan: free
+
+services:
+  - type: web
+    name: cv-backend
+    runtime: docker
+    repo: https://github.com/rockstar89/curriculum-vitae
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: GIN_MODE
+        value: release
+      - key: DATABASE_URL
+        fromDatabase:
+          name: cv-postgres
+          property: connectionString
+      # The following env vars must be set manually in Render dashboard:
+      # - ADMIN_USERNAME (your admin username)
+      # - ADMIN_PASSWORD (your secure password) 
+      # - JWT_SECRET (generate a secure random string)
+    healthCheckPath: /health
